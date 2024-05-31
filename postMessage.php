@@ -3,7 +3,7 @@ session_start();
 
 $servername = "localhost";
 $username = "root";
-$password = ""; // Assuming no password is set
+$password = ""; // change these credentials as you wish
 $dbName = "messageboard";
 
 $conn = new mysqli($servername, $username, $password, $dbName);
@@ -16,7 +16,7 @@ $sql_output = "";
 
 try {
     if (isset($_POST["m"]) && $_POST["m"] != "") {
-        $message = $_POST['m']; // Vulnerable to SQL injection
+        $message = $_POST['m']; // the sql injection here is crazy
         $query = "INSERT INTO `messages` (`message`) VALUES ('$message');";
         echo $query;
 

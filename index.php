@@ -69,7 +69,9 @@ if ($conn->connect_error) {
     <div class="bg-white p-6 rounded-lg shadow-md w-full max-w-lg">
         <h1 class="text-2xl font-bold mb-4 text-center">Message Board</h1>
         <?php
-        echo $_SESSION["sql_output"];
+        if (isset($_SESSION["sql_output"])) {
+            echo $_SESSION["sql_output"];
+        }
         ?>
         <ul id="messageList" class="space-y-4 mb-6 scrollable">
             <?php
@@ -92,6 +94,9 @@ if ($conn->connect_error) {
                 <input type="text" name="m" id="m" class="w-full p-2 border border-gray-300 rounded-lg mt-2">
             </div>
             <input type="submit" value="Post Message" class="w-full bg-blue-500 text-white p-2 rounded-lg hover:bg-blue-600 hover:cursor-pointer">
+        </form>
+        <form method="post" action="validate.php">
+            <input type="submit" value="Admin Panel" class="w-full text-blue-500 hover:cursor-pointer">
         </form>
     </div>
     <script>
