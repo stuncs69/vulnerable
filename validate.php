@@ -1,6 +1,17 @@
 <?php
 session_start();
 
+$servername = "localhost";
+$dbUsername = "root";
+$dbPassword = "";
+$dbName = "messageboard";
+
+$conn = new mysqli($servername, $dbUsername, $dbPassword, $dbName);
+
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
 if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
     echo "You are already logged in.";
     header("Location: admin.php");
@@ -8,13 +19,13 @@ if (isset($_SESSION['loggedin']) && $_SESSION['loggedin'] === true) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $username = 'admin';
-    $password = 'root1';
-
     $posted_username = $_POST['username'] ?? '';
     $posted_password = $_POST['password'] ?? '';
 
-    if ($posted_username === $username && $posted_password === $password) {
+    $sql = "SELECT * FROM users WHERE username = '$posted_username' AND password = '$posted_password'"; // sql injection
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
         $_SESSION['loggedin'] = true;
         echo "Login successful.";
         header("Location: admin.php");
@@ -23,6 +34,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $login_error = "Invalid username or password.";
     }
 }
+
+$conn->close();
 ?>
 
 <!DOCTYPE html>
