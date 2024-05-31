@@ -22,16 +22,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $posted_username = $_POST['username'] ?? '';
     $posted_password = $_POST['password'] ?? '';
 
-    $sql = "SELECT * FROM users WHERE username = '$posted_username' AND password = '$posted_password'"; // sql injection
-    $result = $conn->query($sql);
+    // SQL Injection prone query
+    $sql = "SELECT * FROM users WHERE username = '$posted_username' AND password = '$posted_password'";
 
-    if ($result->num_rows > 0) {
-        $_SESSION['loggedin'] = true;
-        echo "Login successful.";
-        header("Location: admin.php");
-        exit;
-    } else {
-        $login_error = "Invalid username or password.";
+    try {
+        $result = $conn->query($sql);
+
+        if ($result === false) {
+            throw new Exception($conn->error);
+        }
+
+        if ($result->num_rows > 0) {
+            $_SESSION['loggedin'] = true;
+            echo "Login successful.";
+            header("Location: admin.php");
+            exit;
+        } else {
+            $login_error = "Invalid username or password.";
+        }
+    } catch (Exception $e) {
+        $login_error = "SQL Error: " . $e->getMessage();
     }
 }
 
