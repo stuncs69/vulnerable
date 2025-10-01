@@ -21,11 +21,10 @@ CREATE TABLE IF NOT EXISTS `users` (
 
 -- Insert a default admin user (password: admin123)
 -- Note: This is for educational purposes only - in production, use proper password hashing
-INSERT INTO `users` (`username`, `password`) VALUES ('admin', 'admin123') ON DUPLICATE KEY UPDATE username=username;
+INSERT IGNORE INTO `users` (`username`, `password`) VALUES ('admin', 'admin123');
 
 -- Insert some sample messages for testing
-INSERT INTO `messages` (`message`, `hidden`) VALUES 
+INSERT IGNORE INTO `messages` (`message`, `hidden`) VALUES 
 ('Welcome to the message board!', 0),
 ('This is a sample message.', 0),
-('This message is hidden by default.', 1) 
-ON DUPLICATE KEY UPDATE message=message;
+('This message is hidden by default.', 1);

@@ -65,3 +65,13 @@ If you encounter database connection issues:
 1. Make sure both containers are running: `docker-compose ps`
 2. Check the logs: `docker-compose logs`
 3. Restart the services: `docker-compose restart`
+
+If you get "Table 'messageboard.messages' doesn't exist" error:
+1. Stop the containers: `docker-compose down -v` (this removes the database volume)
+2. Start fresh: `docker-compose up -d`
+3. Wait for the database to fully initialize (check logs: `docker-compose logs db`)
+
+To manually check if tables were created:
+```bash
+docker-compose exec db mysql -u root -prootpassword -e "USE messageboard; SHOW TABLES;"
+```
