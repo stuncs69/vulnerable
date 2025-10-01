@@ -1,10 +1,10 @@
 <?php
 session_start();
 
-$servername = "localhost";
-$dbUsername = "root";
-$dbPassword = "";
-$dbName = "messageboard";
+$servername = $_ENV['DB_HOST'] ?? "localhost";
+$dbUsername = $_ENV['DB_USER'] ?? "root";
+$dbPassword = $_ENV['DB_PASSWORD'] ?? "";
+$dbName = $_ENV['DB_NAME'] ?? "messageboard";
 
 $conn = new mysqli($servername, $dbUsername, $dbPassword, $dbName);
 

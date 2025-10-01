@@ -6,11 +6,12 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] === false) {
     exit;
 }
 
-$servername = "localhost";
-$username = "root";
-$dbName = "messageboard";
+$servername = $_ENV['DB_HOST'] ?? "localhost";
+$username = $_ENV['DB_USER'] ?? "root";
+$password = $_ENV['DB_PASSWORD'] ?? "";
+$dbName = $_ENV['DB_NAME'] ?? "messageboard";
 
-$conn = new mysqli($servername, $username, "", $dbName);
+$conn = new mysqli($servername, $username, $password, $dbName);
 
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
