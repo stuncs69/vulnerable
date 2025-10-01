@@ -12,8 +12,6 @@ services:
       - DB_USER=root
       - DB_PASSWORD=rootpassword
       - DB_NAME=messageboard
-    volumes:
-      - .:/var/www/html
     networks:
       - app-network
 
@@ -23,13 +21,11 @@ services:
       MYSQL_ROOT_PASSWORD: rootpassword
       MYSQL_DATABASE: messageboard
     volumes:
-      - db_data:/var/lib/mysql
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql:ro
     networks:
       - app-network
-
-volumes:
-  db_data:
+    tmpfs:
+      - /var/lib/mysql
 
 networks:
   app-network:
