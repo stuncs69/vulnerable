@@ -18,7 +18,6 @@ try {
     if (isset($_POST["m"]) && $_POST["m"] != "") {
         $message = $_POST['m']; // the sql injection here is crazy
         $query = "INSERT INTO `messages` (`message`) VALUES ('$message');";
-        echo $query;
 
         if ($conn->query($query) === TRUE) {
             $last_id = $conn->insert_id;

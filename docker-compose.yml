@@ -3,7 +3,8 @@ version: '3.8'
 services:
   web:
     build: .
-    # ⚠️ no ports needed when using Coolify, it will proxy itself
+    ports:
+      - "8431:80"
     depends_on:
       - db
     environment:
@@ -11,13 +12,25 @@ services:
       - DB_USER=root
       - DB_PASSWORD=rootpassword
       - DB_NAME=messageboard
+    volumes:
+      - .:/var/www/html
+    networks:
+      - app-network
 
   db:
     image: mysql:8.0
     environment:
       MYSQL_ROOT_PASSWORD: rootpassword
-      MYSQL_DATABASE=messageboard
+      MYSQL_DATABASE: messageboard
     volumes:
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql:ro
-    tmpfs:
-      - /var/lib/mysql
+      - db_data:/var/lib/mysql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - app-network
+
+volumes:
+  db_data:
+
+networks:
+  app-network:
+    driver: bridge
